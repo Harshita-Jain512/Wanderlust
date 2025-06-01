@@ -1,0 +1,55 @@
+<!-- <% layout("/layouts/boilerplate") %> -->
+<!-- <%- include("./includes/navbar.ejs") %> -->
+
+<!-- <div class="container">
+    <h1>Welcome to Property Rental</h1>
+    <% if (currUser) { %>
+        <p>Logged in as <%= currUser.username %></p>
+    <% } else { %>
+        <p>Please <a href="/login">log in</a> to access more features.</p>
+    <% } %>
+</div> -->
+<% layout("/layouts/boilerplate") %>
+
+<!-- Hero Section -->
+<section class="hero bg-cover bg-center text-white py-20 px-5" 
+    style="background-image: url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260');">
+    <div class="container text-center">
+        <h1 class="text-5xl font-bold">Find Your Perfect Rental Home</h1>
+        <p class="text-lg mt-4">Discover amazing properties for rent with ease and comfort.</p>
+        <% if (!currUser) { %>
+            <a href="/signup" class="mt-6 inline-block px-6 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600"> Get Started</a>
+        <% } %>
+    </div>
+</section>
+<br>
+<hr>
+<!-- 
+Search Bar -->
+<!-- <section class="search-bar py-10 bg-gray-100">
+    <div class="container flex justify-center">
+        <input type="text" placeholder="Search destinations" class="w-1/2 p-3 border rounded-l-md" />
+        <button class="bg-red-500 text-white px-6 py-3 rounded-r-md hover:bg-red-600">Search</button>
+    </div>
+</section> -->
+
+<!-- Features Section -->
+<section class="features py-16">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <div>
+            <img src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=350&w=600" class="rounded-lg" />
+            <h3 class="text-xl font-semibold mt-4">Modern Homes</h3>
+            <p class="text-gray-600">Find newly built modern apartments and houses.</p>
+        </div>
+        <div>
+            <img src="https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&h=350&w=600" class="rounded-lg" />
+            <h3 class="text-xl font-semibold mt-4">Luxury Villas</h3>
+            <p class="text-gray-600">Exclusive listings of premium luxury properties.</p>
+        </div>
+        <div>
+            <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&h=350&w=600" class="rounded-lg" />
+            <h3 class="text-xl font-semibold mt-4">City Apartments</h3>
+            <p class="text-gray-600">Affordable apartments in the heart of the city.</p>
+        </div>
+    </div>
+</section>

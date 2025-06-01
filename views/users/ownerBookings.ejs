@@ -1,0 +1,54 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .section-container {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+  }
+
+  .section-container h1 {
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+
+  .list-group-item {
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .list-group-item h5 {
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .list-group-item p {
+    margin-bottom: 6px;
+  }
+</style>
+
+<div class="container section-container">
+  <h1>📘 Bookings for Your Listings</h1>
+
+  <% if (bookings.length > 0) { %>
+    <ul class="list-group">
+      <% bookings.forEach(booking => { %>
+        <li class="list-group-item">
+          <h5><%= booking.listing.title %></h5>
+          <p><strong>Booked By:</strong> <%= booking.user.username %> (<%= booking.user.email %>)</p>
+          <p><strong>Room Type:</strong> <%= booking.roomType %></p>
+          <p><strong>Check-In:</strong> <%= new Date(booking.checkIn).toDateString() %></p>
+          <p><strong>Check-Out:</strong> <%= new Date(booking.checkOut).toDateString() %></p>
+          <p><strong>Booked On:</strong> <%= new Date(booking.createdAt).toDateString() %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No one has booked your listings yet.</p>
+  <% } %>
+</div>

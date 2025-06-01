@@ -1,0 +1,121 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .section-card {
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+
+  .section-card h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .list-group-item {
+    border-radius: 12px;
+    margin-bottom: 10px;
+    padding: 20px;
+  }
+
+  .list-group-item h4, .list-group-item h5 {
+    font-weight: 600;
+  }
+
+  
+</style>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Welcome, <%= user.username %>!</h1>
+
+  <a href="/owner/bookings" class="btn btn-primary mb-4">📋 View Bookings for Your Listings</a>
+
+  <!-- User Listings Section -->
+  <div class="section-card">
+    <h2>Your Listings</h2>
+    <% if (userListings.length > 0) { %>
+      <ul class="list-group">
+        <% userListings.forEach((listing) => { %>
+          <li class="list-group-item">
+            <h4><a href="/listings/<%= listing._id %>"><%= listing.title %></a></h4>
+            <p><strong>Price:</strong> ₹<%= listing.price %></p>
+            <p><strong>Location:</strong> <%= listing.location %></p>
+            <p><strong>Description:</strong> <%= listing.description %></p>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>You haven't created any listings yet.</p>
+    <% } %>
+  </div>
+
+ <!-- Booking History Section -->
+<div class="section-card">
+  <h2>Your Booking History</h2>
+  <% if (userBookings.length > 0) { %>
+    <ul class="list-group">
+      <% userBookings.forEach((booking) => { %>
+        <li class="list-group-item position-relative">
+          <% if (booking.status === "Canceled") { %>
+            <form action="/bookings/<%= booking._id %>/delete" method="POST" class="position-absolute top-0 end-0 m-2">
+              <button type="submit" class="btn-close" aria-label="Close"></button>
+            </form>
+          <% } %>
+
+          <% if (booking.listing) { %>
+            <h5><a href="/listings/<%= booking.listing._id %>"><%= booking.listing.title %></a></h5>
+            <p><strong>Location:</strong> <%= booking.listing.location %></p>
+          <% } else { %>
+            <p><strong>Listing:</strong> <em>Deleted</em></p>
+          <% } %>
+
+          <p><strong>Room Type:</strong> <%= booking.roomType %></p>
+          <p><strong>Check-In:</strong> <%= new Date(booking.checkIn).toDateString() %></p>
+          <p><strong>Check-Out:</strong> <%= new Date(booking.checkOut).toDateString() %></p>
+          <p><strong>Booked On:</strong> <%= new Date(booking.createdAt).toDateString() %></p>
+
+          <!-- Cancel Form -->
+          <form action="/bookings/<%= booking._id %>/cancel" method="POST">
+            <button type="submit" class="btn btn-danger" <%= booking.status === 'Canceled' ? 'disabled' : '' %>>
+              Cancel Booking
+            </button>
+          </form>
+
+          <br>
+
+          <% if (booking.status === "Canceled") { %>
+            <a href="/bookings/<%= booking._id %>/cdownload" class="btn btn-info">Download Cancellation PDF</a>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>You have not made any bookings yet.</p>
+  <% } %>
+</div>
+
+  <!-- User Reviews Section -->
+  <div class="section-card">
+    <h2>Your Comments</h2>
+    <% if (userReviews.length > 0) { %>
+      <ul class="list-group">
+        <% userReviews.forEach((review) => { %>
+          <li class="list-group-item">
+            <% if (review.listing) { %>
+              <p><strong>Comment on:</strong> <a href="/listings/<%= review.listing._id %>"><%= review.listing.title %></a></p>
+            <% } else { %>
+              <p><strong>Comment on:</strong> <em>Listing no longer exists.</em></p>
+            <% } %>
+            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+            <p><strong>Comment:</strong> <%= review.comment %></p>
+            <p><strong>Posted on:</strong> <%= review.createdAt.toDateString() %></p>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>You haven't commented on any listings yet.</p>
+    <% } %>
+  </div>
+</div>
