@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script>
-    const mapToken = "<%= process.env.MAP_TOKEN %>"
+    // const mapToken = "<%= process.env.MAP_TOKEN %>"
     const listing = <%- JSON.stringify(listing)%>
 </script>
 <div class="row mt-3">
@@ -28,12 +28,11 @@
     <a href="/listings/<%=listing._id %>/edit " class="btn btn-dark col-1 offset-3 edit-btn">Edit </a>
     <form method="POST" action="/listings/<%=listing._id %>?_method=DELETE">
         <button class="btn btn-dark  offset-5">Delete </button>
-       
     </form>
 </div>
 <% } %>
 
-<!-- this is booking form -->
+<!-- booking form -->
 <% if (currUser && !listing.owner._id.equals(currUser._id)) { %>
   <div class="col-6 offset-3 mb-4">
     <form action="/bookings/<%= listing._id %>/book" method="POST" onsubmit="return validateDates()">
@@ -96,7 +95,6 @@
                     <p class="starability-result card-text" data-rating="<%= review.rating %>">
                     </p>
                     <p class="card-text"><%= review.comment %></p>
-                   
                 </div> 
                 <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                     <button class="btn btn-sm btn-dark">Delete</button>
@@ -106,27 +104,25 @@
     </div>
     <% } %>
 </div>
-<div class="col-8 offset-3 mb-3">
-    <h3>Where you'll be</h3>
-    <div id="map" style="height: 400px;"></div>
-</div>
+
+
 
 <script>
-// mapboxgl.accessToken = "pk.eyJ1IjoiYXl1c2gxNTEwIiwiYSI6ImNtODVxbm84OTFhZG8ya3NhYjU1dzdzejgifQ.x_pVN04Ydq9FNJb6HzUQcA";
+/* --- Mapbox Disabled ---
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-	container: 'map', // container ID
-	style: 'mapbox://styles/mapbox/streets-v12', //  URL
-	center: listing.geometry.coordinates, // starting position [lng, lat]
-	zoom: 9, // starting zoom
+	container: 'map',
+	style: 'mapbox://styles/mapbox/streets-v12',
+	center: listing.geometry.coordinates,
+	zoom: 9,
 });
-    // Create a default Marker and add it to the map.
-    const marker1 = new mapboxgl.Marker({color :"red"})
-        .setLngLat(listing.geometry.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({offset:25}).setHTML(
-            `<h5>${listing.location}</h5>`
-          )
-        )
-        .addTo(map);
+const marker1 = new mapboxgl.Marker({color :"red"})
+    .setLngLat(listing.geometry.coordinates)
+    .setPopup(
+      new mapboxgl.Popup({offset:25}).setHTML(
+        `<h5>${listing.location}</h5>`
+      )
+    )
+    .addTo(map);
+*/
 </script>

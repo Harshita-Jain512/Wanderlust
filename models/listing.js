@@ -31,7 +31,7 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  geometry:{
+  /*geometry:{
     type: {
       type: String, // Don't do `{ location: { type: String } }`
       enum: ['Point'], // 'location.type' must be 'Point'
@@ -41,7 +41,7 @@ const listingSchema = new Schema({
       type: [Number],
       required: true
     }
-  },
+  },*/
   roomsAcAvailable: {
     type: Number,
     required: true,

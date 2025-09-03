@@ -26,6 +26,11 @@
         row-gap: 1.5rem; /* Controls vertical spacing between rows */
     }
 </style>
+<% if (typeof location !== "undefined" && location !== "") { %>
+  <div class="alert alert-info mt-3">
+    Showing results for "<%= location %>"
+  </div>
+<% } %>
 
      <div class="tax-toggle">
         <div class="form-check-reverse form-switch">

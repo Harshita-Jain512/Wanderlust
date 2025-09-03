@@ -1,4 +1,8 @@
 {
+  "engines": {
+    "node": "22.13.0"
+  },
+
   "name": "minor-project",
   "version": "1.0.0",
   "main": "index.js",
@@ -14,6 +18,7 @@
     "bootstrap": "^5.3.3",
     "cloudinary": "^2.5.1",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",

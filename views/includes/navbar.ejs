@@ -9,6 +9,15 @@
         <div class="navbar-nav">
           <a class="nav-link" href="/listings">Explore</a>
         </div>
+        <div class="mx-auto" style="width: 40%;">
+        <form class="d-flex justify-content-center" role="search" action="/listings" method="GET">
+          <input class="form-control me-2 rounded-pill text-center" type="search" name="location"
+            placeholder="Search by location" aria-label="Search" />
+          <button class="btn btn-danger rounded-pill px-4" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
         <div class="navbar-nav ms-auto">
           <a class="nav-link" href="/listings/new">Create your Listing</a>
           <% if(!currUser){ %>
