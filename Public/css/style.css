@@ -50,8 +50,8 @@ body{
     background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-evenly;
+    justify-content: space-evenly; /* ✅ correct */
+    align-items: center;  
 }
 /* Cards */
 .listing-card{
