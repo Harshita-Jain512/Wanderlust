@@ -1,4 +1,4 @@
-mapboxgl.accessToken = "pk.eyJ1IjoiYXl1c2gxNTEwIiwiYSI6ImNtODVxbm84OTFhZG8ya3NhYjU1dzdzejgifQ.x_pVN04Ydq9FNJb6HzUQcA";
+/*mapboxgl.accessToken = "pk.eyJ1IjoiYXl1c2gxNTEwIiwiYSI6ImNtODVxbm84OTFhZG8ya3NhYjU1dzdzejgifQ.x_pVN04Ydq9FNJb6HzUQcA";
   const map = new mapboxgl.Map({
       container: 'map',
       // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
@@ -15,4 +15,4 @@ mapboxgl.accessToken = "pk.eyJ1IjoiYXl1c2gxNTEwIiwiYSI6ImNtODVxbm84OTFhZG8ya3NhY
             `<h5>${listing.location}</h5><p><i> <b> Exact Location will be Provided after booking </b></i> </p>`
           )
         )
-        .addTo(map);
+        .addTo(map);*/
