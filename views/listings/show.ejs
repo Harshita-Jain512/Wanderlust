@@ -105,7 +105,18 @@
     <% } %>
 </div>
 
+<script>
+function validateDates() {
+    const checkIn = new Date(document.getElementById("checkIn").value);
+    const checkOut = new Date(document.getElementById("checkOut").value);
 
+    if (checkOut <= checkIn) {
+        alert("Check-Out date must be after Check-In date");
+        return false;
+    }
+    return true;
+}
+</script>
 
 <script>
 /* --- Mapbox Disabled ---
