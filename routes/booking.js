@@ -7,6 +7,11 @@ const PDFDocument = require("pdfkit");
 const { isLoggedIn } = require("../middleware");
 const nodemailer = require("nodemailer");
 const streamBuffers = require("stream-buffers");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+
+
 router.post("/:id/book", isLoggedIn, async (req, res) => {
   const listing = await Listing.findById(req.params.id);
   const user = await User.findById(req.user._id);
@@ -40,9 +45,19 @@ router.post("/:id/book", isLoggedIn, async (req, res) => {
 
   // Generate PDF in memory
   const doc = new PDFDocument();
-  const bufferStream = new streamBuffers.WritableStreamBuffer();
 
-  doc.pipe(bufferStream);
+const pdfFileName =
+  crypto.randomBytes(16).toString("hex") + ".pdf";
+
+const pdfPath = path.join(
+  __dirname,
+  "../uploads",
+  pdfFileName
+);
+
+const writeStream = fs.createWriteStream(pdfPath);
+
+doc.pipe(writeStream);
   doc.fontSize(18).text("Booking Confirmation", { underline: true });
   doc.moveDown();
   doc.fontSize(12).text(`Hotel Name: ${listing.title}`);
@@ -55,14 +70,13 @@ router.post("/:id/book", isLoggedIn, async (req, res) => {
   doc.text(`Customer: ${user.username}`);
   doc.text(`Email: ${user.email}`);
   doc.end();
-  bufferStream.on("finish", async () => {
-    const pdfBuffer = bufferStream.getContents();
+  writeStream.on("finish", async () => {
   
-    if (!pdfBuffer) {
+   /* if (!pdfBuffer) {
       console.error("PDF buffer generation failed.");
       req.flash("error", "Booking done, but failed to generate PDF.");
       return res.redirect(`/listings/${listing._id}`);
-    }
+    }*/
     // 📧 Email setup
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -78,11 +92,11 @@ router.post("/:id/book", isLoggedIn, async (req, res) => {
       subject: "Your Booking Confirmation",
       text: "Attached is your booking confirmation.",
       attachments: [
-        {
-          filename: "booking-confirmation.pdf",
-          content: pdfBuffer,
-        },
-      ],
+  {
+    filename: "booking-confirmation.pdf",
+    path: pdfPath,
+  },
+],
     };
 
     try {
@@ -94,7 +108,8 @@ router.post("/:id/book", isLoggedIn, async (req, res) => {
     }
 
     // 📥 Store PDF in session for download
-    req.session.pdfBuffer = pdfBuffer;
+    req.session.pdfPath = pdfPath;
+
     req.session.save(() => {
       res.redirect(`/bookings/${booking._id}/download`);
     });
@@ -103,21 +118,15 @@ router.post("/:id/book", isLoggedIn, async (req, res) => {
 
 // download route 
 router.get("/:id/download", isLoggedIn, async (req, res) => {
-  const pdfBuffer = req.session.pdfBuffer;
+  const pdfPath = req.session.pdfPath;
 
-  if (!pdfBuffer) {
+  if (!pdfPath) {
     req.flash("error", "No booking confirmation available for download.");
     return res.redirect("/listings");
   }
 
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", "attachment; filename=booking-confirmation.pdf");
-  res.send(pdfBuffer);
-
-  // Optionally clear buffer from session
-  delete req.session.pdfBuffer;
+  res.download(pdfPath, "booking-confirmation.pdf");
 });
-
 
 // Cancel Booking Route
 router.post("/:id/cancel", isLoggedIn, async (req, res) => {
